@@ -1,0 +1,42 @@
+# ##############################################################################
+# FilterLab Git Ignore Rules
+# ##############################################################################
+
+# [Node & Dependencies]
+# Ignore node_modules wherever they appear (especially in ng-app/)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json.log
+
+# [Angular & Build Outputs]
+# Ignore build artifacts and cache
+dist/
+.angular/
+.cache/
+/out-tsc
+/bazel-out
+/tmp
+
+# [IDEs & System Files]
+.idea/
+.vscode/
+.project
+.classpath
+.cproject
+.settings/
+.nbproject/
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*.tmp
+*.orig
+
+# [Environment Variables]
+.env
+.env.local
+.env.*.local
+
+# [TypeScript]
+*.tsbuildinfo
