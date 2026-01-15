@@ -8,7 +8,8 @@
           「照片」App 的建議調整數值。
         </p>
       </div>
-      <button class="theme-toggle-btn" (click)="toggleTheme()" [attr.aria-label]="currentTheme === 'dark' ? '切換到明亮模式' : '切換到暗黑模式'">
+      <button class="theme-toggle-btn" (click)="toggleTheme()"
+        [attr.aria-label]="currentTheme === 'dark' ? '切換到明亮模式' : '切換到暗黑模式'">
         <span *ngIf="currentTheme === 'dark'">☀️</span>
         <span *ngIf="currentTheme === 'bright'">🌙</span>
         <span class="theme-label">{{ currentTheme === 'dark' ? '明亮模式' : '暗黑模式' }}</span>
@@ -21,16 +22,9 @@
       <div class="upload-column">
         <h2>參考照片</h2>
         <label class="upload-card">
-          <input type="file" accept="image/*" (change)="onRefFileChange($event)" />
-          <span class="upload-placeholder" *ngIf="!refImageUrl"
-            >選擇參考照片</span
-          >
-          <img
-            *ngIf="refImageUrl"
-            [src]="refImageUrl"
-            class="preview-image"
-            alt="參考照片預覽"
-          />
+          <input type="file" accept="image/*,.heic,.heif" (change)="onRefFileChange($event)" />
+          <span class="upload-placeholder" *ngIf="!refImageUrl">選擇參考照片</span>
+          <img *ngIf="refImageUrl" [src]="refImageUrl" class="preview-image" alt="參考照片預覽" />
           <div class="resolution-info" *ngIf="refImageUrl && refOriginalWidth">
             解析度: {{ refOriginalWidth }} x {{ refOriginalHeight }}
           </div>
@@ -40,16 +34,9 @@
       <div class="upload-column">
         <h2>自己的原始照片</h2>
         <label class="upload-card">
-          <input type="file" accept="image/*" (change)="onMeFileChange($event)" />
-          <span class="upload-placeholder" *ngIf="!meImageUrl"
-            >選擇自己的照片</span
-          >
-          <img
-            *ngIf="meImageUrl"
-            [src]="meImageUrl"
-            class="preview-image"
-            alt="原始照片預覽"
-          />
+          <input type="file" accept="image/*,.heic,.heif" (change)="onMeFileChange($event)" />
+          <span class="upload-placeholder" *ngIf="!meImageUrl">選擇自己的照片</span>
+          <img *ngIf="meImageUrl" [src]="meImageUrl" class="preview-image" alt="原始照片預覽" />
           <div class="resolution-info" *ngIf="meImageUrl && meOriginalWidth">
             解析度: {{ meOriginalWidth }} x {{ meOriginalHeight }}
           </div>
@@ -58,11 +45,7 @@
     </section>
 
     <section class="panel panel-actions">
-      <button
-        class="primary-btn"
-        [disabled]="!canAnalyze"
-        (click)="analyze()"
-      >
+      <button class="primary-btn" [disabled]="!canAnalyze" (click)="analyze()">
         分析差異並產生建議
       </button>
       <span class="status-text">{{ statusText }}</span>
@@ -77,11 +60,7 @@
         </p>
         <pre *ngIf="resultsText">{{ resultsText }}</pre>
       </div>
-      <button
-        class="secondary-btn"
-        [disabled]="!resultsText"
-        (click)="copyResults()"
-      >
+      <button class="secondary-btn" [disabled]="!resultsText" (click)="copyResults()">
         複製建議內容
       </button>
     </section>
@@ -93,173 +72,81 @@
           下方滑桿是「模擬版」，調整的是右側預覽，不會改動原始檔。你可以先在這裡微調，再把數值輸入回
           iPhone。
         </p>
-        <button
-          class="secondary-btn"
-          [disabled]="!resultsText"
-          (click)="resetToSuggested()"
-        >
+        <button class="secondary-btn" [disabled]="!resultsText" (click)="resetToSuggested()">
           重設為分析建議
         </button>
-        <button
-          class="primary-btn export-btn"
-          [disabled]="!meImageUrl"
-          (click)="exportHighRes()"
-        >
+        <button class="primary-btn export-btn" [disabled]="!meImageUrl" (click)="exportHighRes()">
           匯出原始解析度照片
         </button>
         <div class="sliders-grid">
           <div class="slider-row">
             <label>曝光</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="exposure"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="exposure" (input)="onSliderChange()" />
             <span class="slider-value">{{ exposure }}</span>
           </div>
           <div class="slider-row">
             <label>增艷</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="brilliance"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="brilliance" (input)="onSliderChange()" />
             <span class="slider-value">{{ brilliance }}</span>
           </div>
           <div class="slider-row">
             <label>亮部</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="highlights"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="highlights" (input)="onSliderChange()" />
             <span class="slider-value">{{ highlights }}</span>
           </div>
           <div class="slider-row">
             <label>陰影</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="shadows"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="shadows" (input)="onSliderChange()" />
             <span class="slider-value">{{ shadows }}</span>
           </div>
           <div class="slider-row">
             <label>對比</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="contrast"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="contrast" (input)="onSliderChange()" />
             <span class="slider-value">{{ contrast }}</span>
           </div>
           <div class="slider-row">
             <label>亮度</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="brightness"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="brightness" (input)="onSliderChange()" />
             <span class="slider-value">{{ brightness }}</span>
           </div>
           <div class="slider-row">
             <label>黑點</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="blackPoint"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="blackPoint" (input)="onSliderChange()" />
             <span class="slider-value">{{ blackPoint }}</span>
           </div>
           <div class="slider-row">
             <label>飽和度</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="saturation"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="saturation" (input)="onSliderChange()" />
             <span class="slider-value">{{ saturation }}</span>
           </div>
           <div class="slider-row">
             <label>自然飽和度</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="vibrance"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="vibrance" (input)="onSliderChange()" />
             <span class="slider-value">{{ vibrance }}</span>
           </div>
           <div class="slider-row">
             <label>色溫</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="warmth"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="warmth" (input)="onSliderChange()" />
             <span class="slider-value">{{ warmth }}</span>
           </div>
           <div class="slider-row">
             <label>色調</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="tint"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="tint" (input)="onSliderChange()" />
             <span class="slider-value">{{ tint }}</span>
           </div>
           <div class="slider-row">
             <label>清晰度</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="clarity"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="clarity" (input)="onSliderChange()" />
             <span class="slider-value">{{ clarity }}</span>
           </div>
           <div class="slider-row">
             <label>畫質</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="definition"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="definition" (input)="onSliderChange()" />
             <span class="slider-value">{{ definition }}</span>
           </div>
           <div class="slider-row">
             <label>降低雜點</label>
-            <input
-              type="range"
-              min="-100"
-              max="100"
-              [(ngModel)]="noiseReduction"
-              (input)="onSliderChange()"
-            />
+            <input type="range" min="-100" max="100" [(ngModel)]="noiseReduction" (input)="onSliderChange()" />
             <span class="slider-value">{{ noiseReduction }}</span>
           </div>
         </div>
@@ -285,4 +172,3 @@
     <p>Version {{ appVersion }}</p>
   </footer>
 </div>
-
