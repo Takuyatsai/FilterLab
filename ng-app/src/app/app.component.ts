@@ -147,8 +147,10 @@ export class AppComponent implements AfterViewInit {
         }
         this.updateCanAnalyze();
       })
-      .catch(() => {
-        this.setStatus('載入參考照片時發生錯誤。');
+      .catch((err) => {
+        if (err !== 'HEIC_ERROR') {
+          this.setStatus('載入參考照片時發生錯誤。');
+        }
       });
   }
 
@@ -205,8 +207,10 @@ export class AppComponent implements AfterViewInit {
         }
         this.updateCanAnalyze();
       })
-      .catch(() => {
-        this.setStatus('載入你的照片時發生錯誤。');
+      .catch((err) => {
+        if (err !== 'HEIC_ERROR') {
+          this.setStatus('載入你的照片時發生錯誤。');
+        }
       });
   }
 
@@ -350,6 +354,16 @@ export class AppComponent implements AfterViewInit {
     originalHeight: number;
     img: HTMLImageElement;
   }> {
+    const fileName = file.name.toLowerCase();
+    const isHeic = fileName.endsWith('.heic') || fileName.endsWith('.heif');
+
+    if (isHeic) {
+      console.log('Detection: HEIC file identified.');
+      const msg = '暫不支援 HEIC 格式。請將照片轉為 JPG 後再上傳（建議在 iPhone 照片中點擊「分享」並選擇「儲存為 JPG」）。';
+      this.setStatus(msg);
+      return Promise.reject('HEIC_ERROR');
+    }
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
