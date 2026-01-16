@@ -359,7 +359,7 @@ export class AppComponent implements AfterViewInit {
 
     if (isHeic) {
       console.log('Detection: HEIC file identified.');
-      const msg = '暫不支援 HEIC 格式。請將照片轉為 JPG 後再上傳（建議在 iPhone 照片中點擊「分享」並選擇「儲存為 JPG」）。';
+      const msg = '暫不支援電腦上傳 HEIC 格式。請將照片轉為 JPG 後再上傳。';
       this.setStatus(msg);
       return Promise.reject('HEIC_ERROR');
     }

@@ -11,6 +11,11 @@
 
 ## 🚀 版本說明 (Changelog)
 
+### v1.1.0 (2026-01-16)
+-   **🧪 自動化測試整合**：引入 **Playwright** 端到端測試框架，涵蓋主題切換、UI 狀態驗證與核心分析邏輯。
+-   **🤖 CI/CD 流程升級**：在 GitHub Actions 流水線中整合「自動化測試」階段。現在每次部署前都會自動執行測試，確保發布版本之穩定性。
+-   **🏷 版本管理優化**：重構版本控制機制，新增版本歷史紀錄功能，並實現 APP 版本號自動選取邏輯。
+
 ### v1.0.1 (2026-01-15)
 -   **✨ 上傳防呆優化**：新增 HEIC/HEIF 格式偵測與引導，自動攔截不支援的格式並提供 iPhone 轉檔建議，提升使用者體驗。
 -   **🛠 穩定性修復**：優化圖片載入錯誤攔截機制，確保錯誤訊息顯示精確不覆蓋。
@@ -34,6 +39,7 @@
 -   **Framework**: Angular 17
 -   **Graphics**: HTML5 Canvas API (Pixel manipulation)
 -   **Style**: Vanilla CSS (Modern aesthetic)
+-   **Testing**: Playwright (E2E Testing)
 -   **CI/CD**: GitHub Actions
 
 ---
