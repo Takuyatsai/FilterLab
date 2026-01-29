@@ -1,7 +1,7 @@
 # FilterLab 📸
 
 [![Deploy to GitHub Pages](https://github.com/takuyatsai/FilterLab/actions/workflows/deploy.yml/badge.svg)](https://github.com/takuyatsai/FilterLab/actions/workflows/deploy.yml)
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)
 
 **FilterLab** 是一個專為 iPhone 攝影愛好者設計的濾鏡分析與模擬工具。它可以分析參考照片的影調，並提供接近 iPhone 「照片」App 的調整參數建議。
 
@@ -10,6 +10,12 @@
 ---
 
 ## 🚀 版本說明 (Changelog)
+
+### v1.1.1 (2026-01-29)
+-   **🖼 高解析度預覽優化**：顯著提升網頁端預覽畫質，支援 4K 解析度 (3840px) 渲染，並引入高品質影像平滑演算法。
+-   **🎨 色調匹配演算法升級**：擴大參數調整範圍至 +/-100 (對齊 iPhone 原生限制)，並優化曝光、增艷與對比度的轉換權重。
+-   **🐛 模擬邏輯修正**：修復「亮部 (Highlights)」與「清晰度」的計算邏輯，解決高光處過曝與細節丟失問題。
+-   **🔧 全域強度控制**：新增演算法強度係數 (Strength Multiplier)，便於開發階段快速微調整體效果。
 
 ### v1.1.0 (2026-01-16)
 -   **🧪 自動化測試整合**：引入 **Playwright** 端到端測試框架，涵蓋主題切換、UI 狀態驗證與核心分析邏輯。
