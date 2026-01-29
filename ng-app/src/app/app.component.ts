@@ -53,7 +53,9 @@ interface IphoneParams {
   noiseReduction: number;
 }
 
-const MAX_SIZE = 1024;
+const MAX_SIZE = 3840;
+// 全局強度係數：如果覺得效果太弱，可將此值調大 (例如 1.2)；太強則調小 (例如 0.8)
+const STRENGTH_MULTIPLIER = 1.0;
 
 @Component({
   selector: 'app-root',
@@ -383,6 +385,8 @@ export class AppComponent implements AfterViewInit {
             reject(new Error('canvas context not available'));
             return;
           }
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, width, height);
           setUrl(img.src);
           const stats = this.computeImageStats(canvas, ctx);
@@ -536,46 +540,46 @@ export class AppComponent implements AfterViewInit {
 
     // 曝光：以整體亮度差為主
     const exposureStops = diffL / 25;
-    const exposureVal = this.clamp(Math.round(exposureStops * 18), -60, 60);
+    const exposureVal = this.clamp(Math.round(exposureStops * 24 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 增艷：同時考慮亮度與對比的綜合，力度比曝光弱一些
-    const brillianceBase = exposureStops * 10 + (diffContrast / 20) * 6;
-    const brillianceVal = this.clamp(Math.round(brillianceBase), -60, 60);
+    const brillianceBase = exposureStops * 10 + (diffContrast / 20) * 8;
+    const brillianceVal = this.clamp(Math.round(brillianceBase * STRENGTH_MULTIPLIER), -100, 100);
 
     // 對比
     const contrastNorm = diffContrast / 20;
-    const contrastVal = this.clamp(Math.round(contrastNorm * 25), -60, 60);
+    const contrastVal = this.clamp(Math.round(contrastNorm * 25 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 飽和度
     const satNorm = diffSat * 2.2;
-    const saturationVal = this.clamp(Math.round(satNorm * 35), -60, 60);
+    const saturationVal = this.clamp(Math.round(satNorm * 40 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 自然飽和度：比飽和度溫和
-    const vibranceVal = this.clamp(Math.round(satNorm * 20), -60, 60);
+    const vibranceVal = this.clamp(Math.round(satNorm * 25 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 亮部
     const highlightNorm = diffHighlight / 35;
-    const highlightsVal = this.clamp(Math.round(highlightNorm * -30), -60, 60);
+    const highlightsVal = this.clamp(Math.round(highlightNorm * -40 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 陰影
     const shadowNorm = diffShadow / 35;
-    const shadowsVal = this.clamp(Math.round(shadowNorm * -30), -60, 60);
+    const shadowsVal = this.clamp(Math.round(shadowNorm * -40 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 亮度：比曝光再溫和一些的整體亮暗
-    const brightnessVal = this.clamp(Math.round((diffL / 30) * 12), -60, 60);
+    const brightnessVal = this.clamp(Math.round((diffL / 30) * 15 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 黑點：主要根據暗部差異
-    const blackPointVal = this.clamp(Math.round((diffShadow / -40) * 35), -60, 60);
+    const blackPointVal = this.clamp(Math.round((diffShadow / -40) * 40 * STRENGTH_MULTIPLIER), -100, 100);
 
     const tempNorm = diffTemp / 40;
-    const warmthVal = this.clamp(Math.round(tempNorm * 35), -60, 60);
+    const warmthVal = this.clamp(Math.round(tempNorm * 40 * STRENGTH_MULTIPLIER), -100, 100);
 
     const tintNorm = diffTint / 30;
-    const tintVal = this.clamp(Math.round(tintNorm * 35), -60, 60);
+    const tintVal = this.clamp(Math.round(tintNorm * 40 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 清晰度／畫質：與對比與局部反差相關，這裡簡單用對比推估
-    const clarityVal = this.clamp(Math.round(contrastNorm * 20), -60, 60);
-    const definitionVal = this.clamp(Math.round(contrastNorm * 15), -60, 60);
+    const clarityVal = this.clamp(Math.round(contrastNorm * 15 * STRENGTH_MULTIPLIER), -100, 100);
+    const definitionVal = this.clamp(Math.round(contrastNorm * 15 * STRENGTH_MULTIPLIER), -100, 100);
 
     // 降低雜點：目前較難從全局統計直接估算，暫時預設為 0
     const noiseReductionVal = 0;
@@ -707,7 +711,7 @@ export class AppComponent implements AfterViewInit {
 
       if (l > 180) {
         const hlScale = highlights / 100;
-        l = l * (1 - 0.6 * hlScale);
+        l = l * (1 + 0.6 * hlScale);
       } else if (l < 75) {
         const shScale = shadows / 100;
         l = l * (1 + 0.8 * shScale);
